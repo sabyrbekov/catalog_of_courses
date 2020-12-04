@@ -18,6 +18,7 @@ class CourseListApiView(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend, SearchFilter)
     search_fields = ('name', 'description', 'start_date', )
 
+
 class CourseDetailUpdateDeleteApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdminOrReadOnly )
     queryset = CourseModel.objects.all()

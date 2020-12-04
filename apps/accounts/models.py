@@ -3,12 +3,12 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.dispatch import receiver
 from django.urls import reverse
+
 from django_rest_passwordreset.signals import reset_password_token_created
-from django.core.mail import send_mail  
 
 
 class UserManager(BaseUserManager):
@@ -58,9 +58,7 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
 
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-"""
-Class USER with ABSTRACT EMAIL USER
-"""
+
 class User(AbstractEmailUser):
     full_name = models.CharField(
         'Full name', max_length=255, blank=True
@@ -83,9 +81,6 @@ class User(AbstractEmailUser):
         self.activation_code = str(uuid.uuid4())
 
 
-"""
-Reset password with reset-password modul
-"""
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
@@ -93,7 +88,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
     send_mail(
         # title:
-        "Password Reset for {title}".format(title="ONLINE_SHOP"),
+        "Password Reset for {title}".format(title="Catalog of courses"),
         # message:
         email_plaintext_message,
         # from:

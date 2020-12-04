@@ -13,9 +13,6 @@ from . import models
 User_ = get_user_model()
 
 
-"""
-Регистрация
-"""
 class RegisterApiSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         min_length=6, 
@@ -55,9 +52,6 @@ class RegisterApiSerializer(serializers.ModelSerializer):
         return user
 
 
-"""
-LogIn 
-"""
 class LoginSerializer(TokenObtainPairSerializer):
     password = serializers.CharField(
         min_length=6, write_only=True
@@ -83,9 +77,7 @@ class LoginSerializer(TokenObtainPairSerializer):
             attrs['access'] = str(refresh.access_token)
         return attrs
 
-"""
-Change password SERIALIZER
-"""
+
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
 
